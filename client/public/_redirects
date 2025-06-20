@@ -1,0 +1,12 @@
+# Handle client-side routing for React Router
+# All routes should serve the main index.html file
+/*    /index.html   200
+
+# Handle specific file extensions
+/*.js    /static/js/:splat    200
+/*.css   /static/css/:splat   200
+/*.png   /static/media/:splat 200
+/*.jpg   /static/media/:splat 200
+/*.jpeg  /static/media/:splat 200
+/*.gif   /static/media/:splat 200
+/*.svg   /static/media/:splat 200

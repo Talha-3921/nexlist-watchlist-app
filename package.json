@@ -1,0 +1,18 @@
+{
+  "name": "nexlist-full-stack",
+  "version": "1.0.0",
+  "description": "Nexlist - Movie, TV Show, Anime & Game Watchlist Application",
+  "scripts": {
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
+    "install-all": "npm run install-client && npm run install-server",
+    "build-client": "cd client && npm run build",
+    "start-client": "cd client && npm start",
+    "start-server": "cd server && npm start",
+    "dev-server": "cd server && npm run dev",
+    "build": "npm run install-client && npm run build-client"
+  },
+  "keywords": ["react", "nodejs", "express", "watchlist", "movies", "tv-shows", "anime", "games"],
+  "author": "Your Name",
+  "license": "MIT"
+}
