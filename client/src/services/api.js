@@ -22,9 +22,13 @@ const setAuthToken = (token) => {
 
 // API request helper
 const apiRequest = async (endpoint, options = {}) => {
-  // Remove leading slash from endpoint to avoid double slashes
-  const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-  const url = `${API_BASE_URL}/${cleanEndpoint}`;
+  // Clean both base URL and endpoint to avoid double slashes
+  const baseUrl = API_BASE_URL.replace(/\/+$/, ''); // Remove trailing slashes
+  const cleanEndpoint = endpoint.replace(/^\/+/, ''); // Remove leading slashes
+  const url = `${baseUrl}/${cleanEndpoint}`;
+  
+  console.log('Making API request to:', url); // Debug log
+  
   const token = getAuthToken();
   
   const config = {
