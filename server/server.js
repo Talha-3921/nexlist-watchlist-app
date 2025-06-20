@@ -16,19 +16,28 @@ app.use(cors({
     
     const allowedOrigins = [
       'http://localhost:3000',
-      'https://nexlist-watchlist-app.vercel.app',
-      'https://nexlist-watchlist-eb1lhuscd-muhammad-talhas-projects-3342e072.vercel.app',
-      'https://nexlist-watchlist-2uycsi9gf-muhammad-talhas-projects-3342e072.vercel.app'
+      'http://localhost:3001',
+      'https://nexlist-watchlist-app.vercel.app'
     ];
-    
-    // Allow any Vercel deployment URL for this project
-    const isVercelDeployment = origin.includes('nexlist-watchlist') && origin.includes('vercel.app');
+      // Check if it's a Vercel deployment for your project
+    const isVercelDeployment = origin && (
+      // Main production domain
+      origin === 'https://nexlist-watchlist-app.vercel.app' ||
+      // Any preview deployment containing your project name
+      (origin.includes('nexlist-watchlist') && origin.includes('vercel.app')) ||
+      // Any deployment under your Vercel account (more permissive for development)
+      (origin.includes('muhammad-talhas-projects') && origin.includes('vercel.app')) ||
+      // Pattern for any vercel deployment with your project pattern
+      /https:\/\/nexlist.*\.vercel\.app$/.test(origin)
+    );
     
     if (allowedOrigins.includes(origin) || isVercelDeployment) {
+      console.log(`CORS: Allowing origin: ${origin}`);
       return callback(null, true);
     }
     
-    return callback(new Error('Not allowed by CORS'));
+    console.log(`CORS: Blocking origin: ${origin}`);
+    return callback(new Error(`Not allowed by CORS: ${origin}`));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
