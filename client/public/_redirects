@@ -1,12 +1,9 @@
-# Handle client-side routing for React Router
-# All routes should serve the main index.html file
-/*    /index.html   200
+# Handle static assets first (these should NOT redirect to index.html)
+/static/*  /static/:splat  200
+/favicon.ico  /favicon.ico  200
+/manifest.json  /manifest.json  200
+/logo*.png  /logo*.png  200
+/robots.txt  /robots.txt  200
 
-# Handle specific file extensions
-/*.js    /static/js/:splat    200
-/*.css   /static/css/:splat   200
-/*.png   /static/media/:splat 200
-/*.jpg   /static/media/:splat 200
-/*.jpeg  /static/media/:splat 200
-/*.gif   /static/media/:splat 200
-/*.svg   /static/media/:splat 200
+# Handle client-side routing for React Router (catch-all for everything else)
+/*    /index.html   200
