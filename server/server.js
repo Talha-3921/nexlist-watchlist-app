@@ -25,7 +25,9 @@ app.get('/', (req, res) => {
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    // Use MONGODB_URI (for Vercel) or MONGO_URI (for local development)
+    const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    await mongoose.connect(mongoUri);
     console.log('MongoDB Atlas connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
@@ -43,4 +45,12 @@ const startServer = async () => {
   });
 };
 
-startServer();
+// For Vercel deployment
+if (process.env.NODE_ENV === 'production') {
+  // Connect to database and export app for serverless
+  connectDB();
+  module.exports = app;
+} else {
+  // For local development
+  startServer();
+}
