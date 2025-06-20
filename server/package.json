@@ -1,7 +1,7 @@
 {
-  "name": "Watchlist-server",
+  "name": "nexlist-server",
   "version": "1.0.0",
-  "description": "Backend server for Watchlist application",
+  "description": "Backend server for Nexlist application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -19,7 +19,7 @@
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "keywords": ["Watchlist", "Watchlist", "movies", "tv", "anime", "games"],
+  "keywords": ["nexlist", "watchlist", "movies", "tv", "anime", "games"],
   "author": "Your Name",
   "license": "MIT"
 }
