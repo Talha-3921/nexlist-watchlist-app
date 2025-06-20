@@ -56,7 +56,7 @@ function AppContent() {
             <MediaDetails />
           </ProtectedRoute>
         } />
-        <Route path="/shared/:shareId/:userId?" element={<SharedWatchlist />} />
+        <Route path="/shared/:folderType/:shareId/:userId?" element={<SharedWatchlist />} />
       </Routes>
     </div>
   );
