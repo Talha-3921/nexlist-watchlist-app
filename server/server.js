@@ -10,14 +10,30 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://nexlist-watchlist-app.vercel.app',
-    'https://nexlist-watchlist-eb1lhuscd-muhammad-talhas-projects-3342e072.vercel.app'
-  ],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://nexlist-watchlist-app.vercel.app',
+      'https://nexlist-watchlist-eb1lhuscd-muhammad-talhas-projects-3342e072.vercel.app',
+      'https://nexlist-watchlist-2uycsi9gf-muhammad-talhas-projects-3342e072.vercel.app'
+    ];
+    
+    // Allow any Vercel deployment URL for this project
+    const isVercelDeployment = origin.includes('nexlist-watchlist') && origin.includes('vercel.app');
+    
+    if (allowedOrigins.includes(origin) || isVercelDeployment) {
+      return callback(null, true);
+    }
+    
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 }));
 app.use(express.json());
 
@@ -25,6 +41,15 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/watchlist', require('./routes/watchlist'));
 app.use('/api/activities', require('./routes/activities'));
+
+// Handle preflight requests for all API routes
+app.options('/api/*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,x-auth-token');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
 
 // Test route
 app.get('/', (req, res) => {
